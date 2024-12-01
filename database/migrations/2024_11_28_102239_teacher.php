@@ -14,6 +14,7 @@ class Teacher extends Migration
             $table->string('last_name');  // Last name of the teacher
             $table->string('father_name'); // Father's name
             $table->date('dob'); // Date of birth
+            $table->string('photo'); // image path
             $table->string('phone'); // Phone number
             $table->string('email')->unique(); // Email address
             $table->text('address'); // Address

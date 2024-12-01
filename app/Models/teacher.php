@@ -21,6 +21,7 @@ class Teacher extends Model
         'last_name',
         'father_name',
         'dob',
+        'photo',
         'phone',
         'email',
         'address',

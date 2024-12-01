@@ -13,23 +13,14 @@ use App\Models\teacher;
 class TeacherController extends Controller
 {
     public function create(Request $request){
-        // echo $request;
-        // $request-> = $request->validate([
-        //     'first_name' => 'required|string|max:255',
-        //     'last_name' => 'required|string|max:255',
-        //     'father_name' => 'required|string|max:255',
-        //     'dob' => 'required|date',
-        //     'phone' => 'required|string|max:20',
-        //     'email' => 'required|email|unique:teacher,email',  // Ensure unique email
-        //     'address' => 'required|string',
-        //     'max_qualification' => 'required|string',
-        //     'doj' => 'required|date',
-        //     'subject' => 'required|string',
-        //     // 'institute_id' => 'required|exists:institute,institute_id',  // Ensure the institute exists
-        //     // 'add_by' => 'required|exists:users,id',  // Ensure the user exists
-        //     'class' => 'required|string',
-        //     'schedule' => 'required|string',
-        // ]);
+        // image uploader
+        $firstName = $request->input('first_name');
+        $dob = $request->input('dob');
+        $currentTime = Carbon::now()->format('YmdHis');
+        $imageName = $firstName . '_' . $dob . '_' . $currentTime . '.' . $request->file('photo')->extension();
+
+        // Store the image
+        $path = $request->file('photo')->storeAs('teachers_photo', $imageName, 'public');
 
         // Step 2: Create a new teacher record in the database
         $teacher = Teacher::create([
