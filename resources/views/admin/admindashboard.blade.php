@@ -60,7 +60,12 @@
                 </div>
             </li>
         </ul>
-
+        <script>
+            function toggleDropdown(menuId) {
+        const menu = document.getElementById(menuId);
+        menu.classList.toggle('hidden');
+    }
+        </script>
         <!-- Logout and Theme Change Button -->
         <div class="mt-auto space-y-3 flex flex-col align-middle">
             <form id='logout' method="POST" action="{{ route('logout') }}">
@@ -84,6 +89,8 @@
         <h2 class="text-3xl font-bold text-gray-900 mb-4">Admin- {{ $institute->inst_name }}, {{$institute->address}}</h2>
         @if($reqType=='addTeacherForm')  
                 @include('teacher.addTeacherForm')
+        @elseif($reqType=='readTeacher')  
+                @include('teacher.readTeacher')
         @else
         <p class="text-gray-700">Here you can manage the institute data, staff, teachers, and students.</p>
         <div class="grid grid-cols-3 gap-4">
@@ -112,15 +119,6 @@
             </div>
 
             <!-- JavaScript to display the selected file name -->
-            <script>
-                const fileInput = document.getElementById('file-upload');
-                const fileNameDisplay = document.getElementById('file-name');
-
-                fileInput.addEventListener('change', function() {
-                    const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'No file selected';
-                    fileNameDisplay.textContent = fileName;
-                });
-            </script>
         </div>
     </div>
 </div>
@@ -128,10 +126,10 @@
 
 <script>
     // Toggle dropdown visibility
-    function toggleDropdown(menuId) {
-        const menu = document.getElementById(menuId);
-        menu.classList.toggle('hidden');
-    }
+    // function toggleDropdown(menuId) {
+    //     const menu = document.getElementById(menuId);
+    //     menu.classList.toggle('hidden');
+    // }
 
     // Theme toggle functionality
     document.getElementById('themeToggle').addEventListener('click', function() {

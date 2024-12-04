@@ -9,18 +9,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\teacher;
+use Carbon\Carbon;
 
 class TeacherController extends Controller
 {
     public function create(Request $request){
         // image uploader
         $firstName = $request->input('first_name');
-        $dob = $request->input('dob');
-        $currentTime = Carbon::now()->format('YmdHis');
-        $imageName = $firstName . '_' . $dob . '_' . $currentTime . '.' . $request->file('photo')->extension();
+        // $dob = $request->input('dob');
+        $cTime = Carbon::now()->format('YmdHis');
+        $imageName = $firstName.$cTime.$request->file('photo')->getClientOriginalName();
 
         // Store the image
-        $path = $request->file('photo')->storeAs('teachers_photo', $imageName, 'public');
+        $path = $request->file('photo')->storeAs('teacher', $imageName, 'public');
 
         // Step 2: Create a new teacher record in the database
         $teacher = Teacher::create([
@@ -28,6 +29,7 @@ class TeacherController extends Controller
             'last_name' => $request->last_name,
             'father_name' => $request->father_name,
             'dob' => $request->dob,
+            'photo'=> $path,
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
@@ -47,7 +49,7 @@ class TeacherController extends Controller
     }
    
     public function read(Request $request){
-        echo 'read teacher';
+        
     }
     public function update(Request $request){
         echo 'update teacher';

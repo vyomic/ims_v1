@@ -4,7 +4,7 @@
         <h2 class="text-2xl font-semibold text-center text-blue-600 mb-6">Add Teacher</h2>
 
         <!-- Teacher Data Form -->
-        <form action="add" method="POST">
+        <form action="add" method="POST" enctype="multipart/form-data">
             @csrf
             <!-- First Name and Last Name in a single row -->
             <div class="flex flex-nowrap gap-4 mb-4 justify-between">

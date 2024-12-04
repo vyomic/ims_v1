@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Institute;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,7 @@ class Dashboard extends Controller
         
             }
         elseif ($currPath=='teacher/add'){
+
             $showInstituteResponse = $this->showInstitute($request);
             $addTeacherForm = $this-> addTeacherForm($request);
 
@@ -38,8 +40,27 @@ class Dashboard extends Controller
             ]);
             // echo $currPath;
         }
-        elseif ($currPath=='teacher/read'){
-            echo 'view Teacher';
+        elseif ($currPath=='teacher/view'){
+            $showInstituteResponse = $this->showInstitute($request);
+            $addTeacherForm = $this-> addTeacherForm($request);
+            $user = auth()->user();
+            $user_id = $user->id;  
+            $teacher = Teacher::where('add_by', $user_id)->get();
+            $showTeacher = 'readTeacher';
+
+            return view('dashboard', [
+                'institute' => $showInstituteResponse,
+                'teacher' => $teacher,
+                'reqType' => $showTeacher
+            ]);
+
+        // If no institute found, handle it
+        if (!$teacher) {
+            return redirect()->route('dashboard')->with('error', 'Institute not found.');
+        }
+
+        // Pass the institute data to the view
+        return $teacher;
         }
         elseif ($currPath=='teacher/update'){
             echo 'update teacher';
