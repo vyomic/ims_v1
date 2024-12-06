@@ -46,9 +46,9 @@
    <!-- Modal for showing details -->
 <div id="teacherDetailsModal" class="fixed inset-0 flex justify-center items-center hidden" style="background-color: rgba(87, 87, 87, 0.267); backdrop-filter: blur(4px);">
     <div class="bg-white p-6 rounded-lg w-3/4 md:w-1/2 relative">
-        <div class="bg-zinc-600 p-4 flex justify-between items-center rounded-t-lg">
+        <div class="bg-zinc-600 absolute top-0 left-0 w-full p-1.5 flex justify-between items-center rounded-t-lg">
             <div class="text-lg font-bold text-white" id="teacherNameAndID"></div>
-            <button onclick="closeDetailsModal()" class="text-red-500 text-xl">&times;</button>
+            <button onclick="closeDetailsModal()" class="text-[#52525b] text-[22px] font-bold p-0 text-center m-0 align-middle w-[30px] h-[30px] bg-white rounded-lg">↩</button>
         </div>
 
         <h2 class="text-2xl font-bold my-4">Teacher Details</h2>
@@ -78,7 +78,13 @@
         </div>
 
         <div class="mt-6 text-center">
-            <button onclick="editRecord()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">Edit</button>
+            <div>
+                <form action="edit" method="get">
+                    @csrf
+                    <input class="none" id="teacherId" type="text" name="id" value="">
+                    <button onclick="editRecord()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">Edit</button>
+                </form>
+            </div>
             <button onclick="deleteRecord()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2">Delete</button>
             <button onclick="printDetails()" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-700">Print</button>
         </div>
@@ -92,6 +98,7 @@
 
         document.getElementById('teacherNameAndID').innerText = `${teacher.first_name} ${teacher.last_name} (ID: ${teacher.id})`;
 
+        document.getElementById('teacherId').value = `${teacher.id}`;
         document.getElementById('fullName').innerText = `${teacher.first_name} ${teacher.last_name}`;
         document.getElementById('fatherName').innerText = teacher.father_name;
         document.getElementById('phone').innerText = teacher.phone;

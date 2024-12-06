@@ -91,6 +91,8 @@
                 @include('teacher.addTeacherForm')
         @elseif($reqType=='readTeacher')  
                 @include('teacher.readTeacher')
+        @elseif($reqType=='editTeacher')  
+                @include('teacher.editTeacher')
         @else
         <p class="text-gray-700">Here you can manage the institute data, staff, teachers, and students.</p>
         <div class="grid grid-cols-3 gap-4">

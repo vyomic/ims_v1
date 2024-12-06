@@ -62,8 +62,20 @@ class Dashboard extends Controller
         // Pass the institute data to the view
         return $teacher;
         }
-        elseif ($currPath=='teacher/update'){
-            echo 'update teacher';
+        elseif ($currPath=='teacher/edit'){
+            $showInstituteResponse = $this->showInstitute($request);
+            $addTeacherForm = $this-> addTeacherForm($request);
+            $user = auth()->user();
+            $user_id = $user->id;  
+            // $teacher = Teacher::where('add_by', $user_id)->get();
+            $teacher = $this->editTeacherView($request);
+            $showTeacher = 'editTeacher';
+
+            return view('dashboard', [
+                'institute' => $showInstituteResponse,
+                'teacher' => $teacher,
+                'reqType' => $showTeacher
+            ]);
         }
         elseif ($currPath=='teacher/delete'){
             echo 'Delete Teacher';
@@ -100,9 +112,16 @@ class Dashboard extends Controller
     // add teacher view
     public function addTeacherForm(Request $request) {
         $reqType='addTeacherForm';
+       
         return $reqType;
     }
 
+    // edit teacher view
+    public function editTeacherView(Request $request) {
+        $reqId = $request->id;
+        $teacher = Teacher::where('id', $reqId)->get();
+        return $teacher;
+    }
 
     public function showInstitute(Request $request) {
         $reqType='showInstitute';

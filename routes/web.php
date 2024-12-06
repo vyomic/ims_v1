@@ -31,7 +31,9 @@ Route::middleware('auth')->group(function () {
      
      // Teacher routes
      Route::get('teacher/add', [Dashboard::class, 'mainHandle'])->name('admin.teacher.add');
+     Route::get('teacher/edit', [Dashboard::class, 'mainHandle'])->name('admin.teacher.edit');
      Route::post('teacher/add', [TeacherController::class, 'create'])->name('teacher.create');
+     Route::post('teacher/edit', [TeacherController::class, 'update'])->name('teacher.update');
 
      Route::get('teacher/view', [Dashboard::class, 'mainHandle'])->name('admin.teacher.view');
      Route::get('teacher/report', [Dashboard::class, 'mainHandle'])->name('admin.teacher.report');

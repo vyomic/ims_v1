@@ -52,7 +52,31 @@ class TeacherController extends Controller
         
     }
     public function update(Request $request){
-        echo 'update teacher';
+        $id= $request->id;
+        $teacher = Teacher::findOrFail($id);
+        $teacher->first_name = $request->first_name;
+        $teacher->last_name = $request->last_name;
+        $teacher->father_name = $request->father_name;
+        $teacher->dob = $request->dob;
+        $teacher->phone = $request->phone;
+        // $teacher->email = $request->email;
+        $teacher->address = $request->address;
+        // $teacher->max_qualification = $request->max_qualification;
+        // $teacher->doj = $request->doj;
+        $teacher->subject = $request->subject;
+        $teacher->institute_id = $request->institute_id;
+        $teacher->add_by = $request->add_by;
+        // $teacher->experience = $request->experience;
+        // $teacher->last_employe = $request->last_employe;
+
+        if ($request->hasFile('photo')) {
+            $cTime = Carbon::now()->format('YmdHis');
+            $imageName = $teacher->first_name.$cTime.$request->file('photo')->getClientOriginalName();
+            $path = $request->file('photo')->storeAs('teacher', $imageName, 'public');
+            $teacher->photo = $path;
+        }
+
+        $teacher->save();
     }
     public function delete(Request $request){
         echo 'delete teacher';
