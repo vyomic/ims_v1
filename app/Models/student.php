@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Teacher extends Model
+class Student extends Model
 {
     use HasFactory;
 
-    // Specify the table name, since it is 'teacher' not 'teachers'
-    protected $table = 'teacher';
+    // Specify the table name, assuming it is 'students'
+    protected $table = 'students';
 
     // Specify the primary key column name (optional, if you have a custom one)
     protected $primaryKey = 'id';
@@ -20,38 +20,39 @@ class Teacher extends Model
         'first_name',
         'last_name',
         'father_name',
+        'mother_name',
         'dob',
         'photo',
         'phone',
         'email',
         'address',
-        'max_qualification',
-        'doj',
-        'subject',
+        'class',
+        'admit',
+        'cls_teacher',
+        'presence',
+        'leave',
         'institute_id',
         'add_by',
-        'experience',
-        'last_employe',
-        'class',
-        'schedule'
     ];
-    protected $dates = ['dob']; 
+
+    // Cast the date fields to date type
+    protected $dates = ['dob', 'admit'];
 
     // Specify the types of the attributes (optional but useful for validation or casting)
     protected $casts = [
         'dob' => 'date',
-        'doj' => 'date',
+        'admit' => 'date',
     ];
 
     // Relationships
 
-    // A teacher belongs to an institute
+    // A student belongs to an institute
     public function institute()
     {
         return $this->belongsTo(Institute::class);
     }
 
-    // A teacher belongs to a user (who added the teacher)
+    // A student belongs to a user (who added the student)
     public function user()
     {
         return $this->belongsTo(User::class, 'add_by');

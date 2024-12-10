@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Institute;
 use App\Models\Teacher;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -45,12 +46,12 @@ class Dashboard extends Controller
             $addTeacherForm = $this-> addTeacherForm($request);
             $user = auth()->user();
             $user_id = $user->id;  
-            $teacher = Teacher::where('add_by', $user_id)->get();
+            $teachers = Teacher::where('add_by', $user_id)->paginate(5);
             $showTeacher = 'readTeacher';
 
             return view('dashboard', [
                 'institute' => $showInstituteResponse,
-                'teacher' => $teacher,
+                'teachers' => $teachers,
                 'reqType' => $showTeacher
             ]);
 
@@ -93,10 +94,35 @@ class Dashboard extends Controller
             echo 'Delete Staff';
         }
         elseif ($currPath=='student/add'){
-            echo 'Add student';
+            $showInstituteResponse = $this->showInstitute($request);
+            $addStudentForm = $this-> addStudentForm($request);
+
+            return view('dashboard', [
+                'institute' => $showInstituteResponse,
+                'reqType' => $addStudentForm
+            ]);
         }
-        elseif ($currPath=='student/read'){
-            echo 'view student';
+        elseif ($currPath=='student/view'){
+            $showInstituteResponse = $this->showInstitute($request);
+            $addStudentForm = $this-> addStudentForm($request);
+            $user = auth()->user();
+            $user_id = $user->id;  
+            $student = Student::where('add_by', $user_id)->paginate(5);
+            $showStudent = 'readStudent';
+
+            return view('dashboard', [
+                'institute' => $showInstituteResponse,
+                'students' => $student,
+                'reqType' => $showStudent
+            ]);
+
+        // If no institute found, handle it
+        if (!$teacher) {
+            return redirect()->route('dashboard')->with('error', 'Institute not found.');
+        }
+
+        // Pass the institute data to the view
+        return $teacher;
         }
         elseif ($currPath=='student/update'){
             echo 'update student';
@@ -112,6 +138,12 @@ class Dashboard extends Controller
     // add teacher view
     public function addTeacherForm(Request $request) {
         $reqType='addTeacherForm';
+       
+        return $reqType;
+    }
+    // add student view
+    public function addStudentForm(Request $request) {
+        $reqType='addStudentForm';
        
         return $reqType;
     }

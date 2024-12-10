@@ -13,29 +13,29 @@
         <table class="min-w-full table-auto">
             <thead>
                 <tr class="bg-gray-200 text-gray-600">
-                    <th class="py-3 px-6 text-left">ID</th>
                     <th class="py-3 px-6 text-left">Name</th>
                     <th class="py-3 px-6 text-left">Father's Name</th>
                     <th class="py-3 px-6 text-left">Mobile</th>
+                    <th class="py-3 px-6 text-left">Class Teacher</th>
                     <th class="py-3 px-6 text-left">Image</th>
                     <th class="py-3 px-6 text-center">Action</th>
                 </tr>
             </thead>
-            @foreach ($teachers as $teacher)
+            @foreach ($students as $student)
                 <tr class="border-b hover:bg-slate-100">
-                    <td class="py-3 px-6 text-gray-700">{{ $teacher->id }}</td>
-                    <td class="py-3 px-6 text-gray-700">{{ $teacher->first_name }} {{ $teacher->last_name }}</td>
-                    <td class="py-3 px-6 text-gray-700">{{ $teacher->father_name }}</td>
-                    <td class="py-3 px-6 text-gray-700">{{ $teacher->phone }}</td>
+                    <td class="py-3 px-6 text-gray-700">{{ $student->first_name }} {{ $student->last_name }}</td>
+                    <td class="py-3 px-6 text-gray-700">{{ $student->father_name }}</td>
+                    <td class="py-3 px-6 text-gray-700">{{ $student->phone }}</td>
+                    <td class="py-3 px-6 text-gray-700">{{ $student->cls_teacher }}</td>
                     <td class="py-3 px-6 text-center">
-                        <img src="{{ asset('/storage/' . $teacher->photo) }}" alt="{{ $teacher->photo }}"
+                        <img src="{{ asset('/storage/' . $student->photo) }}" alt="{{ $student->photo }}"
                             class="rounded-full w-12 h-12">
                     </td>
                     <td class="py-3 px-6 text-center flex gap-1 justify-center flex-row flex-wrap content-center">
                         <a href="" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Edit</a>
                         {{-- <a href="" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 ml-2">Details</a> --}}
                         <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-                            data-teacher="{{ json_encode($teacher) }}" 
+                            data-student="{{ json_encode($student) }}" 
                             onclick="openDetailsModal(event)">Details</button>
                     </td>
                 </tr>
@@ -43,27 +43,28 @@
         </table>
     </div>
     <div>
-        {{ $teachers->links() }}
+        {{ $students->links() }}
     </div>
 
    <!-- Modal for showing details -->
-<div id="teacherDetailsModal" class="fixed inset-0 flex justify-center items-center hidden" style="background-color: rgba(87, 87, 87, 0.267); backdrop-filter: blur(4px);">
+<div id="studentDetailsModal" class="fixed inset-0 flex justify-center items-center hidden" style="background-color: rgba(87, 87, 87, 0.267); backdrop-filter: blur(4px);">
     <div class="bg-white p-6 rounded-lg w-3/4 md:w-1/2 relative">
         <div class="bg-zinc-600 absolute top-0 left-0 w-full p-1.5 flex justify-between items-center rounded-t-lg">
-            <div class="text-lg font-bold text-white" id="teacherNameAndID"></div>
+            <div class="text-lg font-bold text-white" id="studentNameAndID"></div>
             <button onclick="closeDetailsModal()" class="text-[#52525b] text-[22px] font-bold p-0 text-center m-0 align-middle w-[30px] h-[30px] bg-white rounded-lg">↩</button>
         </div>
 
-        <h2 class="text-2xl font-bold my-4">Teacher Details</h2>
+        <h2 class="text-2xl font-bold my-4">Student Details</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="text-gray-700">
                 <p><strong>Full Name:</strong> <span id="fullName"></span></p>
                 <p><strong>Father's Name:</strong> <span id="fatherName"></span></p>
+                <p><strong>Mother's Name:</strong> <span id="motherName"></span></p>
                 <p><strong>Phone:</strong> <span id="phone"></span></p>
             </div>
             <div class="text-center">
-                <img id="teacherPhoto" src="" alt="Teacher's Photo" class="rounded-lg" style="width: 180px; height: 200px;">
+                <img id="studentPhoto" src="" alt="Student's Photo" class="rounded-lg" style="width: 180px; height: 200px;">
             </div>
         </div>
 
@@ -74,9 +75,9 @@
                 <p><strong>Age:</strong> <span id="age"></span></p>
             </div>
             <div class="text-gray-700">
-                <p><strong>Experience:</strong> <span id="experience"></span></p>
-                <p><strong>Previous Employer:</strong> <span id="previousEmployer"></span></p>
-                <p><strong>Assigned Subject:</strong> <span id="assignedSubject"></span></p>
+                <p><strong>Class Teacher:</strong> <span id="cls_teacher"></span></p>
+                <p><strong>Attendence:</strong> <span id="presence"></span></p>
+                <p><strong>Leave:</strong> <span id="leave"></span></p>
             </div>
         </div>
 
@@ -84,7 +85,7 @@
             <div>
                 <form action="edit" method="get">
                     @csrf
-                    <input class="none" id="teacherId" type="text" name="id" value="">
+                    <input class="none" id="studentId" type="text" name="id" value="">
                     <button  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">Edit</button>
                 </form>
             </div>
@@ -97,27 +98,28 @@
 <script>
     function openDetailsModal(event) {
         const button = event.target;
-        const teacher = JSON.parse(button.getAttribute('data-teacher'));
+        const student = JSON.parse(button.getAttribute('data-student'));
 
-        document.getElementById('teacherNameAndID').innerText = `${teacher.first_name} ${teacher.last_name} (ID: ${teacher.id})`;
+        document.getElementById('studentNameAndID').innerText = `${student.first_name} ${student.last_name} (ID: ${student.id})`;
+        console.log(student.father_name);
+        document.getElementById('studentId').value = `${student.id}`;
+        document.getElementById('fullName').innerText = `${student.first_name} ${student.last_name}`;
+        document.getElementById('fatherName').innerText = student.father_name;
+        document.getElementById('motherName').innerText = student.mother_name;
+        document.getElementById('phone').innerText = student.phone;
+        document.getElementById('studentPhoto').src = `{{ asset('storage') }}/${student.photo}`;
+        document.getElementById('address').innerText = student.address;
+        document.getElementById('dob').innerText = formatDate(student.dob);
+        document.getElementById('age').innerText = calculateAge(student.dob);
+        document.getElementById('cls_teacher').innerText = student.cls_teacher;
+        document.getElementById('presence').innerText = student.presence;
+        document.getElementById('leave').innerText = student.leave;
 
-        document.getElementById('teacherId').value = `${teacher.id}`;
-        document.getElementById('fullName').innerText = `${teacher.first_name} ${teacher.last_name}`;
-        document.getElementById('fatherName').innerText = teacher.father_name;
-        document.getElementById('phone').innerText = teacher.phone;
-        document.getElementById('teacherPhoto').src = `{{ asset('storage') }}/${teacher.photo}`;
-        document.getElementById('address').innerText = teacher.address;
-        document.getElementById('dob').innerText = formatDate(teacher.dob);
-        document.getElementById('age').innerText = calculateAge(teacher.dob);
-        document.getElementById('experience').innerText = teacher.experience;
-        document.getElementById('previousEmployer').innerText = teacher.last_employe;
-        document.getElementById('assignedSubject').innerText = teacher.subject;
-
-        document.getElementById('teacherDetailsModal').classList.remove('hidden');
+        document.getElementById('studentDetailsModal').classList.remove('hidden');
     }
 
     function closeDetailsModal() {
-        document.getElementById('teacherDetailsModal').classList.add('hidden');
+        document.getElementById('studentDetailsModal').classList.add('hidden');
     }
 
     function editRecord() {
