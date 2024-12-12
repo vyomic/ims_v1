@@ -19,10 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/manage', [Dashboard::class, 'mainHandle'])->name('admin.manage');
 
     // institute cerations
     Route::get('/reg', [InstituteController::class, 'regForm'])->name('regInstitute');
     Route::post('/reg', [InstituteController::class, 'store'])->name('createInstitute');
+    Route::post('/updateDep', [InstituteController::class, 'crDep'])->name('createDeparment');
 
      // Staff routes
      Route::get('staff/add', [StaffController::class, 'create'])->name('admin.staff.add');

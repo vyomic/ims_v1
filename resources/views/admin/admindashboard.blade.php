@@ -114,12 +114,11 @@ function toggleDropdown(menuId) {
 window.addEventListener('click', function(event) {
     const sidebarWrapper = document.getElementById('sidebarWrapper');
     if (!sidebarWrapper.contains(event.target) && !event.target.closest('#sidebarToggleButton')) {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.remove('translate-x-0');
-        sidebar.classList.add('-translate-x-full');
-        setTimeout(() => {
+        // const sidebar = document.getElementById('sidebar');
+        // sidebar.classList.remove('translate-x-0');
+        // sidebar.classList.add('-translate-x-full');
             sidebarWrapper.classList.add('translate-x-[-260px]');
-        }, 300); // Wait for the transition to complete before hiding
+             // Wait for the transition to complete before hiding
     }
 });
 </script>
@@ -137,15 +136,29 @@ window.addEventListener('click', function(event) {
                 @include('student.readStudent')
         @elseif($reqType=='editTeacher')  
                 @include('teacher.editTeacher')
+        @elseif($reqType=='manage')  
+                @include('tools.addinstitute.instituteDep')
         @else
         <p class="text-gray-700">Here you can manage the institute data, staff, teachers, and students.</p>
         <div class="grid grid-cols-3 gap-4">
-            <div class="bg-blue-500 p-4 border-2 border-solid rounded-xl h-[150px]">Item 1</div>
-            <div class="bg-red-500 p-4 border-2 border-solid rounded-xl h-[150px]">Item 2</div>
+            <div class="bg-blue-500 p-4 border-2 border-solid rounded-xl h-[150px]">
+                <span class="font-bold block text-[35px]">{{$teacherCount}}</span>
+                <span class="font-semibold">No of Teachers</span>
+            </div>
+            <div class="bg-teal-800 p-4 border-2 border-solid rounded-xl h-[150px]">
+                <span class="font-bold block text-white text-[35px]">{{$stuCount}}</span>
+                <span class="font-semibold">No of Student</span>
+            </div>
             <div class="bg-green-500 p-4 border-2 border-solid rounded-xl h-[150px]">Item 3</div>
-            <div class="bg-yellow-500 p-4 border-2 border-solid rounded-xl h-[150px]">Item 4</div>
-            <div class="bg-purple-500 p-4 border-2 border-solid rounded-xl h-[150px]">Item 5</div>
-            <div class="bg-indigo-500 p-4 border-2 border-solid rounded-xl h-[150px]">Item 6</div>
+            <div class="bg-yellow-500 p-4 border-2 border-solid rounded-xl h-[150px]">Event/ News
+                <a href=""></a>
+            </div>
+            <div class="bg-purple-800 p-4 border-2 border-solid rounded-xl h-[150px]">Time Table
+                <span class="text-white font-bold">{{$reqType}}</span>
+            </div>
+            <div class="bg-indigo-500 p-4 border-2 border-solid rounded-xl h-[150px]">Manage Institute
+                <a href="{{ route('admin.manage') }}" class="text-white font-bold bg-blue-500 no-underline border-2 border-blue-600 rounded-lg p-4"> Click Here</a>
+            </div>
           </div>
         <!-- File Upload Section -->
         <div>

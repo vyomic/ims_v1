@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institute;
 
 use App\Models\Institute;
+use App\Models\inStr;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,17 @@ public function regForm()
         // Find the user by ID
         $user->update(['isNew' => 'oldAdmin']);
          return Redirect::route('dashboard')->with('status', 'Istitute information-updated');
+    }
+    public function crDep(Request $request){
+        $institute = inStr::create([
+            'depName'=> $request->depName,
+            'depHead'=> $request->depHead,
+            'depCode'=> $request->depCode,
+            'depType'=> $request->depType,
+            'instituteId'=> $request->institute_id,
+        ]);
+        return Redirect::route('admin.manage')->with('status', 'Istitute information-updated');
+
     }
 
 }

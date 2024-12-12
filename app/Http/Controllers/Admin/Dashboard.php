@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use App\Models\inStr;
 use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\Student;
@@ -20,13 +21,15 @@ class Dashboard extends Controller
             $reqType='dashboard';
             $user = auth()->user();
             $isNew = $user->isNew;
+            $teacherCount = Teacher::count();
+            $stuCount = Student::count();
             if ($isNew=='newAdmin'){
     
             // Redirect to '/reg' if the user is a new admin
             return redirect('/reg');
             }
             $showInstituteResponse = $this->showInstitute($request);
-            return view('dashboard', ['institute' => $showInstituteResponse, 'reqType'=>$reqType]);
+            return view('dashboard', ['institute' => $showInstituteResponse, 'reqType'=>$reqType, 'teacherCount'=>$teacherCount, 'stuCount'=>$stuCount]);
             // echo $currPath;
         
             }
@@ -129,6 +132,22 @@ class Dashboard extends Controller
         }
         elseif ($currPath=='student/delete'){
             echo 'Delete student';
+        }
+        else{
+            $reqType=$currPath;
+            $user = auth()->user();
+            $user_id = $user->id;
+            $teacherCount = Teacher::count();
+            $stuCount = Student::count();
+            $showInstituteResponse = $this->showInstitute($request);
+            if ($reqType=='manage'){
+                $instituteId = Institute::where('user_id', $user_id)->pluck('institute_id')->first();
+                $departments = inStr::where('instituteId', $instituteId)->get();
+                return view('dashboard', ['institute' => $showInstituteResponse, 'reqType'=>$reqType, 'teacherCount'=>$teacherCount, 'stuCount'=>$stuCount, 'departments'=>$departments]);
+            // Redirect to '/reg' if the user is a new admin
+            // return redirect('/reg');
+            }
+            return view('dashboard', ['institute' => $showInstituteResponse, 'reqType'=>$reqType, 'teacherCount'=>$teacherCount, 'stuCount'=>$stuCount]);
         }
         
        
