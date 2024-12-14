@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
-use App\Models\inStr;
+use App\Models\InStr;
 use App\Models\Institute;
 use App\Models\Teacher;
 use App\Models\Student;

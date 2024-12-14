@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\teacher;
+use App\Models\Teacher;
 use Carbon\Carbon;
 
 class TeacherController extends Controller

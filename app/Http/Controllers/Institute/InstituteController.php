@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Institute;
 
 use App\Models\Institute;
-use App\Models\inStr;
+use App\Models\InStr;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
